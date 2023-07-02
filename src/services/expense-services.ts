@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import {API_URL} from "../constants";
 import {Expense} from "../types";
 
@@ -8,17 +8,16 @@ export const getExpenses = async () => {
     try {
         const result = await axios.get(
             `${API_URL}/expense/`
-        );
-        if (result.status === 200) {
-            return result.data;
-        }
-        notification.warning({
-            message: 'Warning!',
-            description: 'Something went wrong when fetching expenses'
-        });
+        ).then((result: AxiosResponse<Expense[]>) => {
+            if (result.status === 200 || result.status === 204) {
+                return result.data;
+            } else {
+                throw new Error();
+            }
+        })
     } catch (e) {
         notification.error({
-            message: 'Error!',
+            message: 'Warning!',
             description: 'Something went wrong when fetching expenses'
         });
     }
