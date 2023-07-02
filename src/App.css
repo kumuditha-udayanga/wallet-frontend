@@ -1,1 +1,8 @@
+.App {
+    padding: 20px;
+    background-color: rgb(240, 242, 245);
+}
 
+.createExpenseButton {
+    margin-bottom: 5px;
+}
